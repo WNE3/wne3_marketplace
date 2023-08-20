@@ -1,30 +1,57 @@
-## Foundry
+# WNE3 Marketplace
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+### About the project
+We are a budding Web3 e-commerce startup, aiming to expand the web3 ecosystem by building an open marketplace for NFT utilities, as well as a brand of physical NFTs and a one-of-a-kind blockchain merchandise store.
 
-Foundry consists of:
+*For more info visit [WNE3](https://www.wne3.com/) ⭐*
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-## Documentation
+# Getting Started
 
-https://book.getfoundry.sh/
+## Requirements
 
-## Usage
+- [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+  - Install git and run `git --version` and you see a response like `git version x.x.x`
+- [foundry](https://getfoundry.sh/)
+  - forge install and run `forge --version` and you see a response like `forge 0.2.0 (816e00b 2023-03-16T00:05:26.396218Z)`
 
-### Build
 
-```shell
-$ forge build
+### Quickstart
+Clone this repository
+```
+git clone https://github.com/WNE3/wne3_marketplace.git
 ```
 
-### Test
+### Install dependencies
+```
+forge install
+```
+```
+forge install OpenZeppelin/openzeppelin-contracts --no-commit
 
-```shell
+```
+
+# Usage
+
+## Start a local node
+
+```
+make anvil
+```
+
+## Deploy
+
+This will default to your local node. You need to have it running in another terminal in order for it to deploy.
+
+### Testing
+```
 $ forge test
+```
+
+or 
+
+```
+forge test --fork-url $SEPOLIA_RPC_URL
 ```
 
 ### Format
@@ -37,12 +64,6 @@ $ forge fmt
 
 ```shell
 $ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
 ```
 
 ### Deploy
@@ -58,9 +79,6 @@ $ cast <subcommand>
 ```
 
 ### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+```
+forge help
 ```
