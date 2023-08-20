@@ -39,9 +39,11 @@ forge install OpenZeppelin/openzeppelin-contracts --no-commit
 make anvil
 ```
 
-## Deploy
+### Deploy
 
-This will default to your local node. You need to have it running in another terminal in order for it to deploy.
+```shell
+$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
 
 ### Testing
 ```
@@ -64,12 +66,6 @@ $ forge fmt
 
 ```shell
 $ forge snapshot
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
 ```
 
 ### Cast
