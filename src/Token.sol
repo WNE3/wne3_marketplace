@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity >=0.8.9;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -8,10 +8,19 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract MyToken is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
+contract Token is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
     /**
      * @dev constants
      */
+
+    event CustomUpdateEvent(
+        address operator,
+        address from,
+        address to,
+        uint256[] ids,
+        uint256[] amounts
+    );
+
     uint256 public constant PUBLIC_MINT = 0.02 ether;
     uint256 public constant SPECIAL_LIST_MINT = 0.01 ether;
     uint256 public constant LIMIT_PER_WALLET = 100;
@@ -23,7 +32,7 @@ contract MyToken is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
     mapping(address => bool) allowList;
     mapping(address => uint256) purchasesPerWallet;
 
-    constructor() ERC1155("") {}
+    constructor() ERC1155("") Ownable(msg.sender) {}
 
     function setURI(string memory newuri) public onlyOwner {
         _setURI(newuri);
@@ -38,14 +47,15 @@ contract MyToken is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
     }
 
     function setMintWindow(bool _publicMint, bool _specialList) external onlyOwner {
-        _publicMint = s_publicMintIsOpen;
-        _specialList = s_publicMintIsOpen;
+        s_publicMintIsOpen = _publicMint;
+        s_specialMintIsOpen = _specialList;
     }
 
     function setMintWindow(address[] calldata _addr) external onlyOwner {
         for (uint256 i = 0; i < _addr.length; i++) {
             allowList[_addr[i]] = true;
         }
+        s_specialMintIsOpen = true; // You might want to open special minting window here as well
     }
 
     function publicMint(uint256 id, uint256 amount) public payable onlyOwner {
@@ -78,21 +88,20 @@ contract MyToken is ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
         return string(abi.encodePacked(super.uri(_id), Strings.toString(_id), ".json"));
     }
 
-    function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
-        public
-        onlyOwner
-    {
-        _mintBatch(to, ids, amounts, data);
-    }
-
-    function _update(
+    function myCustomUpdate(
         address operator,
         address from,
         address to,
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal override(ERC1155, ERC1155Supply) whenNotPaused {
-        super._update(operator, from, to, ids, amounts, data);
+    ) internal whenNotPaused {
+        // Only perform custom logic for transfers (not mints)
+        if (from != address(0)) {
+            // Implement your custom logic here
+            // For example, you might want to emit events or update a mapping
+            emit CustomUpdateEvent(operator, from, to, ids, amounts);
+        }
     }
 }
+
