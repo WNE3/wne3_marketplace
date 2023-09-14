@@ -26,9 +26,9 @@ git clone https://github.com/WNE3/wne3_marketplace.git
 ```
 forge install
 ```
+If the above command doesn't install the openzeppelin contracts use this.
 ```
 forge install OpenZeppelin/openzeppelin-contracts --no-commit
-
 ```
 
 # Usage

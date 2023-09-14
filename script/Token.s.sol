@@ -1,7 +1,7 @@
-// SPDX-License-Identifier: MIT
-pragma solidity >=0.8.9;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
 
-import {Script} from "forge-std/Script.sol";
+import {Script, console2} from "forge-std/Script.sol";
 import {Token} from "../src/Token.sol";
 
 contract DeployToken is Script {
