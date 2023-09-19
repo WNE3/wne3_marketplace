@@ -67,7 +67,7 @@ contract Markeplace {
 
     /* Four Functions right */
     // LIST NFT"S
-    function ListAssets(address TokenAddress, uint256 tokenId, uint256 quantity, uint256 price)
+    function listAssets(address TokenAddress, uint256 tokenId, uint256 quantity, uint256 price)
         external
         isNotListed(TokenAddress, tokenId)
     {
@@ -89,7 +89,7 @@ contract Markeplace {
     }
 
     // function to buy NFT's marketplace
-    function BuyAssets(address TokenAddress, uint256 tokenId, uint256 quantity)
+    function buyAssets(address TokenAddress, uint256 tokenId, uint256 quantity)
         external
         payable
         isListed(TokenAddress, tokenId)
@@ -111,7 +111,7 @@ contract Markeplace {
     }
 
     //UPDATE NFT"s
-    function UpdateDetails(address TokenAddress, uint256 tokenId, uint256 newQuantity, uint256 newPrice)
+    function updateDetails(address TokenAddress, uint256 tokenId, uint256 newQuantity, uint256 newPrice)
         external
         isListed(TokenAddress, tokenId)
     {
@@ -125,7 +125,7 @@ contract Markeplace {
     }
 
     //Delete token from the marketplace
-    function RemoveListing(address TokenAddress, uint256 tokenId) external isListed(TokenAddress, tokenId) {
+    function removeListing(address TokenAddress, uint256 tokenId) external isListed(TokenAddress, tokenId) {
         Listing storage listing = s_listings[msg.sender][tokenId];
         require(msg.sender == listing.seller, "Only the seller can remove the listing");
         IERC1155 token = IERC1155(TokenAddress);
@@ -134,7 +134,7 @@ contract Markeplace {
         emit assetRemoved(TokenAddress, tokenId, listing.quantity, listing.price, msg.sender);
     }
 
-    function WithdrawProceeds() external {
+    function withdrawProceeds() external {
         uint256 proceeds = s_proceeds[msg.sender];
         require(proceeds > 0, "No proceeds to withdraw");
         (bool k,) = payable(msg.sender).call{value: proceeds}("");
