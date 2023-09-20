@@ -22,7 +22,8 @@ contract Token is Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
     bool public s_publicMintIsOpen = false;
     bool public s_specialMintIsOpen = false;
 
-    mapping(address => bool) allowList;
+    // have to change the visibility of the function to public for testing purpose
+    mapping(address => bool) public allowList;
     mapping(address => uint256) purchasesPerWallet;
 
     constructor() ERC1155("") Ownable() {}
